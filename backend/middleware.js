@@ -6,13 +6,13 @@ function authenticationMiddleWare(request,response,next){
     const {authorization}  = request.headers;
 
     if(!authorization){
-        response.send(400).json({message : "Not Authorized,Please login and try again"});
+        response.send(401).json({message : "Not Authorized,Please login and try again"});
     }
 
     const token = authorization.split(' ')[1];
 
     if(!token){
-        response.send(400).json({message : "Not Authorized,Please login and try again"});
+        response.send(401).json({message : "Not Authorized,Please login and try again"});
     }
 
     try{
@@ -20,9 +20,20 @@ function authenticationMiddleWare(request,response,next){
 
     }
     catch(err){
-        response.send(400).json( {message : "Not Authorized"});
+        response.send(401).json( {message : "Not Authorized"});
     }
 
 }
 
-export default authenticationMiddleWare;
+function errorHandlingMiddleWare(error,request,response,next){
+    if(error instanceof SyntaxError && error.status === 400 && 'body' in error){
+        return response.status(400).json({
+            message : "Invalid Json payload",
+            error : err.message,
+        });
+    }
+
+    next();
+}
+
+export {authenticationMiddleWare,errorHandlingMiddleWare};

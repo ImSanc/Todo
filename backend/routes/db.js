@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { databaseConnection } from "../config";
+import { databaseConnection } from "../config.js";
+import bycrpt from "bcrypt"
 
 mongoose.connect(databaseConnection);
 
@@ -32,4 +33,33 @@ const UserSchema = new mongoose.Schema({
     },
 
 })
+
+UserSchema.pre('save', function(next){
+    const user = this;
+
+    if(!user.isModified('password')){
+        return next();
+    }
+
+    bycrpt.genSalt(10, function(err,salt){
+
+        if(err){
+            return next(err);
+        }
+
+        bycrpt.hash(user.password,salt, function(err,hash){
+            if(err){
+                return next(err);
+            }
+
+        user.password = hash;
+        next();
+        })
+    })
+
+
+})
+
+export const User = mongoose.model('User',UserSchema);
+
 

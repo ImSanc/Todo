@@ -1,7 +1,7 @@
 
 import express from 'express';
-import userRouter from './user';
-import todoRouter from './todo';
+import userRouter from './user.js';
+import todoRouter from './todo.js';
 
 const router = express.Router();
 
