@@ -26,7 +26,8 @@ userRouter.post('/signup', async (request,response)=>{
     }
 
     const newUser = await User.create({username,password,lastName,firstName});
-    const token = jsonwebtoken.sign({username},jWT_Token);
+    const id = newUser._id;
+    const token = jsonwebtoken.sign( {username, id},jWT_Token);
 
     return response.status(200).json({
         message : "User created Successfully",
@@ -51,6 +52,7 @@ userRouter.post("/signin", async (request,response)=>{
 
     try{
         const userExist = await User.findOne({username});
+        const id = userExist._id;
 
         if(!userExist){
             return response.status(401).json({message : "User doesn't exist"});
@@ -60,7 +62,7 @@ userRouter.post("/signin", async (request,response)=>{
         const match = await bcrypt.compare(password,storedHashedPassword);
 
         if(match){
-            const token = jsonwebtoken.sign({username},jWT_Token);
+            const token = jsonwebtoken.sign({username, id},jWT_Token);
 
             response.status(200).json({
                 message : "User logged in",

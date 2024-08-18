@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { databaseConnection } from "../config.js";
 import bcrypt from "bcrypt"
+import { boolean } from "zod";
 
 mongoose.connect(databaseConnection);
 
@@ -56,10 +57,31 @@ UserSchema.pre('save', function(next){
         next();
         })
     })
+})
 
-
+const TodoSchema = new mongoose.Schema({
+    userId :{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required :true
+    }
+    ,
+    title :{
+        type : String,
+        required : true,
+        trim : true
+    },
+    description : {
+        type : String,
+        trim : true
+    },
+    markAsDone :{
+        type : Boolean,
+        default : false
+    }
 })
 
 export const User = mongoose.model('User',UserSchema);
+export const Todo = mongoose.model('Todo',TodoSchema);
 
 

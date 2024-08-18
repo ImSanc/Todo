@@ -17,9 +17,13 @@ function authenticationMiddleWare(request,response,next){
 
     try{
         const decoded = jsonwebToken.verify(token,jWT_Token);
-        if(decoded.username){
-            request.body.username = decoded.username;   
+
+        if(!(decoded.username && decoded.id)){
+            return response.status(401).json({message : "Not Authorized,Please login and try again"});
         }
+
+        request.body.username = decoded.username; 
+        request.body.id = decoded.id;
         next();
     }
     catch(err){

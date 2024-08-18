@@ -17,3 +17,19 @@ export const userUpdateSchema = zod.object({
     password : zod.string().min(6).max(50)
 })
 
+export const addTodoSchema = zod.object({
+    title : zod.string().min(1).max(50),
+    description : zod.string().max(200),
+    id : zod.string()
+})
+
+export const updateSchema = zod.object({
+    title : zod.string().min(1).max(50),
+    description : zod.string().max(200),
+    todoId : zod.string()
+})
+
+export const deleteSchema = zod.object({
+    todoId : zod.string()
+})
+
