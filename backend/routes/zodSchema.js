@@ -1,13 +1,19 @@
 import zod from 'zod';
 
 export const SignUpSchema = zod.object({
-    username : zod.string().email().max(50,"UserName should be of 50 characters"),
-    password : zod.string().min(6,"Password should be of atleast 6 characters").max(50,"Password should be of 50 characters"),
-    firstName : zod.string().min(1,"FirstName cannot be empty").max(50,"firstName should be of 50 characters")
+    username : zod.string().email().max(50),
+    password : zod.string().min(6).max(50),
+    firstName : zod.string().min(1).max(50)
 })
 
 export const SigninSchema = zod.object({
-    username : zod.string().email().max(50,"UserName should be of 50 characters"),
-    password : zod.string().min(6,"Password should be of atleast 6 characters").max(50,"Password should be of 50 characters")
+    username : zod.string().email().max(50),
+    password : zod.string().min(6).max(50)
+})
+
+export const userUpdateSchema = zod.object({
+    firstName : zod.string().min(1).max(50),
+    lastName : zod.string().max(50),
+    password : zod.string().min(6).max(50)
 })
 

@@ -1,9 +1,10 @@
 import express, { request, response } from 'express'
-import { SignUpSchema, SigninSchema } from './zodSchema.js';
+import { SignUpSchema, SigninSchema, userUpdateSchema } from './zodSchema.js';
 import { User } from './db.js';
 import jsonwebtoken from 'jsonwebtoken'
 import { jWT_Token } from '../config.js';
 import bcrypt from 'bcrypt';
+import { authenticationMiddleWare } from '../middleware.js';
 
 const userRouter = express.Router();
 
@@ -76,8 +77,48 @@ userRouter.post("/signin", async (request,response)=>{
             error : error
         })
     }
+})
 
+userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
+
+    const {username,password,firstName,lastName} = request.body;
+
+    const {success} = userUpdateSchema.safeParse({password,firstName,lastName});
+    if(!success){
+        return response.status(400).json({message : "Password and First Name should be correct"});
+    }
+
+    try{
+
+        const savedUserDetail = await User.findOne({username});
+        const match = await bcrypt.compare(password,savedUserDetail.password);
+        const firstNameNotUpdate = ifNameNotUpdated(savedUserDetail.firstName,firstName);
+        const lastNameNotUpdate = ifNameNotUpdated(savedUserDetail.lastName,lastName);
+
+        if(match && firstNameNotUpdate && lastNameNotUpdate ){
+            return response.status(400).json({message : "details are not updated/ Still the same"});
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password,salt);
+
+        const result = await User.updateOne({username},{$set : { password : hashedPassword,firstName,lastName}});
+
+        if(result.modifiedCount === 0){
+            return response.status(404).json({message :"User not found or data not modified"});
+        }
+
+        return response.status(200).json({message :"Updated successfully"});
+
+    }
+    catch(error){
+        return response.status(500).json({message : "Something went wrong"});
+    }
 
 })
+
+function ifNameNotUpdated(savedName,updatedName ){
+    return savedName === updatedName;
+}
 
 export default userRouter;

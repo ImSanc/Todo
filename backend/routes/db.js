@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { databaseConnection } from "../config.js";
-import bycrpt from "bcrypt"
+import bcrypt from "bcrypt"
 
 mongoose.connect(databaseConnection);
 
@@ -41,13 +41,13 @@ UserSchema.pre('save', function(next){
         return next();
     }
 
-    bycrpt.genSalt(10, function(err,salt){
+    bcrypt.genSalt(10, function(err,salt){
 
         if(err){
             return next(err);
         }
 
-        bycrpt.hash(user.password,salt, function(err,hash){
+        bcrypt.hash(user.password,salt, function(err,hash){
             if(err){
                 return next(err);
             }
