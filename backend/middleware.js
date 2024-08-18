@@ -18,12 +18,12 @@ function authenticationMiddleWare(request,response,next){
     try{
         const decoded = jsonwebToken.verify(token,jWT_Token);
 
-        if(!(decoded.username && decoded.id)){
+        if(!(decoded.username && decoded.userId)){
             return response.status(401).json({message : "Not Authorized,Please login and try again"});
         }
 
         request.body.username = decoded.username; 
-        request.body.id = decoded.id;
+        request.body.userId = decoded.userId;
         next();
     }
     catch(err){

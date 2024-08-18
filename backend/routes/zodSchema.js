@@ -20,7 +20,7 @@ export const userUpdateSchema = zod.object({
 export const addTodoSchema = zod.object({
     title : zod.string().min(1).max(50),
     description : zod.string().max(200),
-    id : zod.string()
+    userId : zod.string()
 })
 
 export const updateSchema = zod.object({
@@ -31,5 +31,9 @@ export const updateSchema = zod.object({
 
 export const deleteSchema = zod.object({
     todoId : zod.string()
+})
+
+export const getAllTodoSchema = zod.object({
+    userId : zod.string()
 })
 
