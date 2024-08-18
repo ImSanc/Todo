@@ -113,9 +113,10 @@ todoRouter.delete("/deleteAll",authenticationMiddleWare, async (request,response
     }
 })
 
-todoRouter.get("/doneTodos", async ( request,response)=>{
+todoRouter.get("/doneTodos", authenticationMiddleWare ,async ( request,response)=>{
     const {userId} = request.body;
-    const success = getAllTodoSchema.safeParse({userId});
+    console.log(userId);
+    const {success} = getAllTodoSchema.safeParse({userId});
 
     if(!success){
         return response.status(400).json({message : "Please enter the required details"});
