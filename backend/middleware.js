@@ -1,4 +1,4 @@
-import { jWT_Token } from "./config";
+
 import jsonwebToken from "jsonwebtoken";
 
 function authenticationMiddleWare(request,response,next){
@@ -29,7 +29,7 @@ function errorHandlingMiddleWare(error,request,response,next){
     if(error instanceof SyntaxError && error.status === 400 && 'body' in error){
         return response.status(400).json({
             message : "Invalid Json payload",
-            error : err.message,
+            error : error.message,
         });
     }
 
