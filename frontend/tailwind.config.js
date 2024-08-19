@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height:{
+        '110':'650px',
+      },
+      fontFamily: {
+        'brush-script' : ['Brush Script MT','cursive'],
+      }
+    },
   },
   plugins: [],
 }
