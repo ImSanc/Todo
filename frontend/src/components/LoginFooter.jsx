@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-export function BottomFotter({information,linkTo,linkLabel}){
+export function BottomFooter({information,linkTo,linkLabel}){
 
     return(
-        <div className=" flex justify-center items-center m-2 w-full text-xl font-medium">
+        <div className=" flex justify-center items-center  w-full text-lg font-medium mt-2">
             <div className="pr-2">
                 {information}
             </div>

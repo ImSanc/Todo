@@ -8,6 +8,7 @@ export default {
     extend: {
       height:{
         '110':'650px',
+        '90' : '500px'
       },
       fontFamily: {
         'brush-script' : ['Brush Script MT','cursive'],
