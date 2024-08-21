@@ -11,7 +11,7 @@ export function HeaderBar({visibleBackButton,username}){
             {visibleBackButton ?
              <div className="flex justify-center items-center p-3 ">
                <Link to='/todo'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-white bg-slate-500 w-10 h-10 p-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-white bg-slate-500 w-10 h-10 p-2 rounded-full transform transition-transform duration-300 hover:scale-125">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </Link>
@@ -23,8 +23,10 @@ export function HeaderBar({visibleBackButton,username}){
                 Todo Application
             </div>
 
-            <div>
-
+            <div className="flex justify-center items-center p-4">
+                <div className="rounded-full bg-blue-300 h-16 w-16 flex justify-center items-center text-4xl font-semibold pb-1">
+                    S
+                </div>
             </div>
         </div>
     )
