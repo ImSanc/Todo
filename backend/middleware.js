@@ -43,4 +43,11 @@ function errorHandlingMiddleWare(error,request,response,next){
     next();
 }
 
+function errorHandlingMiddleWare(error,request,response,next){
+    return response.status(500).json({
+            message : "Internal sever error",
+            error : error.message,
+        });
+}
+
 export {authenticationMiddleWare,errorHandlingMiddleWare};

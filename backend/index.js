@@ -2,7 +2,7 @@ import express from 'express';
 import {port} from './config.js'
 import cors from 'cors'
 import rootRouter from './routes/index.js'
-import { errorHandlingMiddleWare } from './middleware.js';
+import { errorHandlingMiddleWare, jsonErrorHandlingMiddleWare } from './middleware.js';
 
 const allowedOrigins = [
     'http://localhost:5173'
@@ -15,6 +15,7 @@ app.use(cors({
 app.use(express.json())
 
 app.use(errorHandlingMiddleWare);
+app.use(jsonErrorHandlingMiddleWare);
 app.use('/api/v1',rootRouter);
 
 
