@@ -32,7 +32,7 @@ function authenticationMiddleWare(request,response,next){
 
 }
 
-function errorHandlingMiddleWare(error,request,response,next){
+function jsonErrorHandlingMiddleWare(error,request,response,next){
     if(error instanceof SyntaxError && error.status === 400 && 'body' in error){
         return response.status(400).json({
             message : "Invalid Json payload",
@@ -50,4 +50,4 @@ function errorHandlingMiddleWare(error,request,response,next){
         });
 }
 
-export {authenticationMiddleWare,errorHandlingMiddleWare};
+export {authenticationMiddleWare,errorHandlingMiddleWare,jsonErrorHandlingMiddleWare};
