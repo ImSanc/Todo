@@ -37,7 +37,7 @@ export function SignUp(){
         }
 
       } catch (error) {
-        setErrorMessage('An unexpected error occurred');
+        setErrorMessage( error.response?.data?.message || 'An unexpected error occurred');
         setShowErrorDialog(true);
       }
     };
@@ -52,16 +52,16 @@ export function SignUp(){
             <div className={` w-[80%] ${ showErrorDialog ? "h-[74%]" : "h-110"} sm:w-[50%] md:w-[25%] bg-slate-400 p-2 rounded-2xl  `}>
                 <LoginHeader heading={"Sign up"} description={"Enter your information to create an account"}/>
                 <InputComponent inputLabel={"First Name"} placeholder={"David"} type={"text"} onChange={ (e)=>{
-                    setFirstName(e.target.value,setFirstName)
+                    setFirstName(e.target.value)
                 }} />
                 <InputComponent inputLabel={"Last Name"} placeholder={"Ornstein"} type={"text"} onChange={ (e)=>{
-                    setLastName(e.target.value,setLastName)
+                    setLastName(e.target.value)
                 }} />
                 <InputComponent inputLabel={"E-mail"} placeholder={"davidOrnstein@gmail.com"} type={"text"} onChange={ (e)=>{
-                    setUserEmail(e.target.value,setUserEmail)
+                    setUserEmail(e.target.value)
                 }} />
                 <InputComponent inputLabel={"Password"} placeholder={"david123"} type={"password"} onChange={ (e)=>{
-                    setUserPassword(e.target.value,setUserPassword)
+                    setUserPassword(e.target.value)
                 }} />
                
                 <Button label={"Sign Up"} onClick={signUpUser} />

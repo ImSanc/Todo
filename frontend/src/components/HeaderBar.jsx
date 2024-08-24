@@ -16,7 +16,11 @@ export function HeaderBar({visibleBackButton,username}){
                     </svg>
                 </Link>
                </div>
-               : <div> </div>
+               : <div className="flex justify-center items-center p-4 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-white w-10 h-10 p-2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                    </svg>
+                 </div>
             }
 
             <div className=" pt-4 font-semibold text-4xl text-gray-400 mr-5">
