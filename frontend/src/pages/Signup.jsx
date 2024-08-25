@@ -3,8 +3,8 @@ import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { BottomFooter } from "../components/LoginFooter";
 import { LoginHeader } from "../components/LoginHeader";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import { errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, tokenAtom, userEmailAtom } from "../recoil/atoms";
 import axios from 'axios'
 import ErrorDialog from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ export function SignUp(){
     const [showErrorDialog,setShowErrorDialog] = useRecoilState(showErrorDialogAtom);
     const [errorMessage,setErrorMessage] = useRecoilState(errorMessageAtom);
     const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
+    const setTokenAtom = useSetRecoilState(tokenAtom);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -51,7 +52,9 @@ export function SignUp(){
         });
   
         if (response.data.token) {
-          localStorage.setItem("token", `Bearer ${response.data.token}`);
+          const token = `Bearer ${response.data.token}`;
+          localStorage.setItem("token", token);
+          setTokenAtom("token", token)
           navigate("/dashboard")
         }
         else {

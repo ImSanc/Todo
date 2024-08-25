@@ -1,9 +1,9 @@
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { BottomFooter } from "../components/LoginFooter";
 import { LoginHeader } from "../components/LoginHeader";
-import { errorMessageAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
+import { errorMessageAtom, passwordAtom, showErrorDialogAtom, tokenAtom, userEmailAtom } from "../recoil/atoms";
 import axios from "axios";
 import ErrorDialog from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ export function LogIn(){
     const [password ,setUserPassword] = useRecoilState(passwordAtom);
     const [showErrorDialog ,setShowErrorDialog] = useRecoilState(showErrorDialogAtom);
     const [errorMessage ,setErrorMessage] = useRecoilState(errorMessageAtom);
+    const setTokenAtom = useSetRecoilState(tokenAtom);
     const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
     const navigate = useNavigate();
 
@@ -44,7 +45,9 @@ export function LogIn(){
                 password
             })
             if(response.data.token){
-                localStorage.setItem("token",response.data.token);
+                const token = `Bearer ${ response.data.token}`;
+                localStorage.setItem("token",token);
+                setTokenAtom(token);
                 navigate("/dashboard");
             }
             else{

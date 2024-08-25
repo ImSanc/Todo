@@ -41,3 +41,8 @@ export const isDropDownOpenAtom = atom({
     default : false
 })
 
+export const tokenAtom = atom({
+    key: "tokenAtom",
+    default: localStorage.getItem("token") || ""
+});
+
