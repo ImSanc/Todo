@@ -126,7 +126,11 @@ userRouter.get("/user-exist", authenticationMiddleWare, async (request,response)
 
     if(userExist){
         return response.status(200).json({
-            userExist : true
+            userExist : true,
+            user : {
+                lastName : userExist.lastName,
+                firstName : userExist.firstName
+            }
         })
     }
     else{

@@ -1,13 +1,14 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { BottomFooter } from "../components/LoginFooter";
 import { LoginHeader } from "../components/LoginHeader";
-import { checkAuthorizationSelector, errorMessageAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
+import { errorMessageAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
 import axios from "axios";
 import ErrorDialog from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { checkAuthorizationSelector } from "../recoil/selector";
 
 export function LogIn(){
 
@@ -15,15 +16,27 @@ export function LogIn(){
     const [password ,setUserPassword] = useRecoilState(passwordAtom);
     const [showErrorDialog ,setShowErrorDialog] = useRecoilState(showErrorDialogAtom);
     const [errorMessage ,setErrorMessage] = useRecoilState(errorMessageAtom);
-    const authorizationSelector = useRecoilValue(checkAuthorizationSelector);
+    const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(authorizationSelector){
+
+        if( authorizationSelector.state === 'hasValue' && authorizationSelector.contents.userExist){
             navigate("/dashboard");
         }
-    },[])
+    },[authorizationSelector.state,authorizationSelector.contents,navigate])
 
+    if(authorizationSelector.state === 'loading') {
+        return <div className=" bg-slate-700 text-white text-lg flex justify-center items-center w-screen h-screen">
+                Loading....
+            </div>
+    }
+
+    if(authorizationSelector.state === 'hasError') {
+        return <div className=" bg-red-200 text-white text-lg flex justify-center items-center w-screen h-screen">
+                Error occurred while checking authorization.
+            </div>
+    }
     const logIn = async ()=>{
         try{
             const response  = await axios.post("http://localhost:3000/api/v1/user/signin",{

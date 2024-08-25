@@ -1,10 +1,17 @@
 import { Link, Navigate } from "react-router-dom"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { firstNameAtom, isDropDownOpenAtom } from "../recoil/atoms"
+import { DropDown } from "./DropDown";
+import { useState } from "react";
 
-export function HeaderBar({visibleBackButton,username}){
+export function HeaderBar({visibleBackButton}){
 
-    // function onBackButtonClick(){
-    //     Navigate.
-    // }
+    const firstName = useRecoilValue(firstNameAtom);
+    const [isDropdownOpen, setIsDropdownOpen] = useRecoilState(isDropDownOpenAtom);
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
 
     return(
         <div className="bg-slate-700 w-screen h-20 border-b-2 border-slate-500 rounded-m flex justify-between">
@@ -28,9 +35,10 @@ export function HeaderBar({visibleBackButton,username}){
             </div>
 
             <div className="flex justify-center items-center p-4">
-                <div className="rounded-full bg-blue-300 h-16 w-16 flex justify-center items-center text-4xl font-semibold pb-1">
-                    S
+                <div className={`transform transition-transform duration-300 ${ !visibleBackButton ? "hover:cursor-pointer hover:scale-110" : ""} rounded-full bg-blue-300 h-16 w-16 flex justify-center items-center text-4xl font-semibold pb-1`} onClick={toggleDropdown}>
+                      {firstName.charAt(0)}
                 </div>
+                {isDropdownOpen && <DropDown />} {/* Render dropdown if open */}
             </div>
         </div>
     )

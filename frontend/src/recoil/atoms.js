@@ -36,20 +36,8 @@ export const showTodosAtom = atom({
     default: false
 })
 
-export const checkAuthorizationSelector = selector({
-    key : "checkAuthorization",
-    get : async()=>{
-        try{
-            const token = localStorage.getItem("token");
-            const res = await axios.get("http://localhost:3000/api/v1/user/user-exist",{
-                headers : {
-                    'Authorization' : token
-                }
-            });
-
-            return res.data.userExist;
-        }catch(error){
-            return false;
-        }
-    }
+export const isDropDownOpenAtom = atom({
+    key : 'isDropDownOpen',
+    default : false
 })
+

@@ -7,7 +7,7 @@ export function UserDetail(){
     return (
         <div className=" bg-[url('/loggedinBg.jpg')] bg-cover bg-center h-screen w-screen ">
            <HeaderBar visibleBackButton={true} username={"sanchit"}/>
-           <div className="w-screen mt-36 flex justify-center items-center">
+           <div className="w-screen mt-24 flex justify-center items-center">
                 <div className="w-[80%] h-2/3 sm:w-[70%] md:w-[25%] bg-slate-400 p-2 rounded-2xl">
                     <LoginHeader heading={"User details"}></LoginHeader>
                     <InputComponent type={"text"} value={"sanchit"} inputLabel={"First Name"}  />

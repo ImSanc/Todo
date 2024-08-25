@@ -1,22 +1,44 @@
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import { HeaderBar } from "../components/HeaderBar";
 
 import { TodoListComp } from "../components/TodoListComp";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkAuthorizationSelector } from "../recoil/atoms";
+import { firstNameAtom, lastNameAtom } from "../recoil/atoms";
+import { checkAuthorizationSelector } from "../recoil/selector";
 
 export function MainDash(){
 
-    const authorizationSelector = useRecoilValue(checkAuthorizationSelector);
+    const [firstName,setFirstName] = useRecoilState(firstNameAtom);
+    const [lastName,setLastName] = useRecoilState(lastNameAtom);
+    const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(!authorizationSelector){
-            navigate("/login");
+
+        if( authorizationSelector.state === 'hasValue' ){
+            if( !authorizationSelector.contents.userExist ){
+                navigate("/login");
+            }
+            else{
+                setFirstName(()=>(authorizationSelector.contents.user.firstName));
+                setLastName(()=>(authorizationSelector.contents.user.lastName));
+            }
         }
-    },[])
+    },[authorizationSelector.state,authorizationSelector.contents,navigate])
+
+    if(authorizationSelector.state === 'loading') {
+        return <div className=" bg-slate-700 text-white text-lg flex justify-center items-center w-screen h-screen">
+                Loading....
+            </div>
+    }
+
+    if(authorizationSelector.state === 'hasError') {
+        return <div className=" bg-red-200 text-white text-lg flex justify-center items-center w-screen h-screen">
+                Error occurred while checking authorization.
+            </div>
+    }
 
     return (
         <div className=" bg-[url('/loggedinBg.jpg')] bg-cover bg-center w-screen h-screen">
