@@ -46,3 +46,8 @@ export const tokenAtom = atom({
     default: localStorage.getItem("token") || ""
 });
 
+export const visibleBackButtonAtom = atom({
+    key : "visibleBackButtonAtom",
+    default : false
+})
+

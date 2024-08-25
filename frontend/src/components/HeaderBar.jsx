@@ -1,23 +1,28 @@
 import { Link, Navigate } from "react-router-dom"
-import { useRecoilState, useRecoilValue } from "recoil"
-import { firstNameAtom, isDropDownOpenAtom } from "../recoil/atoms"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
+import { firstNameAtom, isDropDownOpenAtom, visibleBackButtonAtom } from "../recoil/atoms"
 import { DropDown } from "./DropDown";
 import { useState } from "react";
 
-export function HeaderBar({visibleBackButton}){
+export function HeaderBar(){
 
     const firstName = useRecoilValue(firstNameAtom);
     const [isDropdownOpen, setIsDropdownOpen] = useRecoilState(isDropDownOpenAtom);
+    const [visibleBackButton,setVisibleBackButton] = useRecoilState(visibleBackButtonAtom);
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const toggleBackButton = ()=>{
+        setVisibleBackButton(false);
+    }
+
     return(
         <div className="bg-slate-700 w-screen h-20 border-b-2 border-slate-500 rounded-m flex justify-between">
             {visibleBackButton ?
              <div className="flex justify-center items-center p-4 ">
-               <Link to='/todo'>
+               <Link to='/todo' onClick={toggleBackButton}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-white bg-slate-500 w-10 h-10 p-2 rounded-full transform transition-transform duration-300 hover:scale-125">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
@@ -36,9 +41,9 @@ export function HeaderBar({visibleBackButton}){
 
             <div className="flex justify-center items-center p-4">
                 <div className={`transform transition-transform duration-300 ${ !visibleBackButton ? "hover:cursor-pointer hover:scale-110" : ""} rounded-full bg-blue-300 h-16 w-16 flex justify-center items-center text-4xl font-semibold pb-1`} onClick={toggleDropdown}>
-                      {firstName.charAt(0)}
+                      {firstName.charAt(0).toUpperCase()}
                 </div>
-                {isDropdownOpen && <DropDown />} {/* Render dropdown if open */}
+                {isDropdownOpen && <DropDown />}
             </div>
         </div>
     )

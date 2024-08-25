@@ -7,10 +7,6 @@ export function DropDown(){
     const[isOpen,setIsOpen] =  useRecoilState(isDropDownOpenAtom);
     const dropDownRef = useRef(null);
 
-    const toggleDropdown = ()=>{
-        setIsOpen(!isOpen);
-    };
-
     const handleClickOutSide = (event)=>{
         if(dropDownRef.current && !dropDownRef.current.contains(event.target)){
             setIsOpen(false);
@@ -30,11 +26,13 @@ export function DropDown(){
             {
                 isOpen 
                 &&
-                <div className=" absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
-                    <Link className="block px-4 py-2 text-gray-800 hover:bg-gray-100" to="/user-details">
+                <div className=" absolute right-0 p-1 mt-2 w-48 bg-slate-800 text-white border border-gray-800 rounded shadow-lg z-10">
+                    <Link className="block px-4 py-2 hover:bg-gray-600 hover:cursor-pointer" to="/user-details" onClick={()=>{
+                        setIsOpen(false)
+                    }}>
                         Update Details
                     </Link>
-                    <div className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                    <div className="block px-4 py-2  hover:text-red-500 hover:bg-gray-600 hover:cursor-pointer">
                         Log Out
                     </div>
                 </div>
