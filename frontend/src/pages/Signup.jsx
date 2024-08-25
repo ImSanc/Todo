@@ -3,11 +3,12 @@ import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { BottomFooter } from "../components/LoginFooter";
 import { LoginHeader } from "../components/LoginHeader";
-import { useRecoilState } from "recoil";
-import {  errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {  checkAuthorizationSelector, errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, userEmailAtom } from "../recoil/atoms";
 import axios from 'axios'
 import ErrorDialog from "../components/ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export function SignUp(){
 
@@ -17,7 +18,14 @@ export function SignUp(){
     const [password,setUserPassword] = useRecoilState(passwordAtom);
     const [showErrorDialog,setShowErrorDialog] = useRecoilState(showErrorDialogAtom);
     const [errorMessage,setErrorMessage] = useRecoilState(errorMessageAtom);
+    const authorizationSelector = useRecoilValue(checkAuthorizationSelector);
     const navigate = useNavigate();
+
+    useEffect( ()=>{
+      if(authorizationSelector){
+        navigate("/dashboard");
+      }
+    },[])
 
     const signUpUser = async () => {
       try {
@@ -49,23 +57,23 @@ export function SignUp(){
 
     return (
         <div className=" bg-[url('/loginBackground.jpg')] bg-cover bg-center h-screen w-screen flex justify-center items-center">
-            <div className={` w-[80%] ${ showErrorDialog ? "h-[74%]" : "h-110"} sm:w-[50%] md:w-[25%] bg-slate-400 p-2 rounded-2xl  `}>
+            <div className={`${ showErrorDialog ? "h-[95%]" : "h-110"} w-[80%] sm:w-[50%] md:w-[40%] lg:w-[30%]  bg-slate-400 p-2 rounded-2xl  `}>
                 <LoginHeader heading={"Sign up"} description={"Enter your information to create an account"}/>
-                <InputComponent inputLabel={"First Name"} placeholder={"David"} type={"text"} onChange={ (e)=>{
+                <InputComponent inputLabel={"First Name"} placeholder={"Enter first name"} type={"text"} onChange={ (e)=>{
                     setFirstName(e.target.value)
                 }} />
-                <InputComponent inputLabel={"Last Name"} placeholder={"Ornstein"} type={"text"} onChange={ (e)=>{
+                <InputComponent inputLabel={"Last Name"} placeholder={"Enter last name"} type={"text"} onChange={ (e)=>{
                     setLastName(e.target.value)
                 }} />
-                <InputComponent inputLabel={"E-mail"} placeholder={"davidOrnstein@gmail.com"} type={"text"} onChange={ (e)=>{
+                <InputComponent inputLabel={"E-mail"} placeholder={"Enter e-mail"} type={"text"} onChange={ (e)=>{
                     setUserEmail(e.target.value)
                 }} />
-                <InputComponent inputLabel={"Password"} placeholder={"david123"} type={"password"} onChange={ (e)=>{
+                <InputComponent inputLabel={"Password"} placeholder={"Enter password"} type={"password"} onChange={ (e)=>{
                     setUserPassword(e.target.value)
                 }} />
                
                 <Button label={"Sign Up"} onClick={signUpUser} />
-                <BottomFooter information={"Already have an account?"} linkTo={"/signin"} linkLabel={"Sign in"}/>
+                <BottomFooter information={"Already have an account?"} linkTo={"/login"} linkLabel={"Log In"}/>
                 {showErrorDialog && <ErrorDialog message={errorMessage} onClose={closeDialog} />}
             </div>
         </div>

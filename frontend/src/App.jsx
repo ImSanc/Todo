@@ -2,10 +2,10 @@
 import './App.css'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { SignUp } from './pages/Signup'
-import { SignIn } from './pages/SignIn'
 import { UserDetail } from './pages/UserDetail'
 import { RecoilRoot } from 'recoil'
 import { MainDash } from './pages/MainDash'
+import { LogIn } from './pages/LogIn'
 
 function App() {
   return (
@@ -21,10 +21,10 @@ function MainApplication(){
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/signin" element={<SignIn/>}/>
+          <Route path="/login" element={<LogIn/>}/>
           <Route path="/user-details" element={<UserDetail/>}/>
           <Route path="/dashboard" element={<MainDash/>}/>
-          <Route path = "*" element ={<Navigate to= "/dashboard" />}/>
+          <Route path = "*" element ={<Navigate to= "/login" />}/>
         </Routes>
       </BrowserRouter>
     </>

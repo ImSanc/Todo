@@ -52,12 +52,11 @@ userRouter.post("/signin", async (request,response)=>{
 
     try{
         const userExist = await User.findOne({username});
-        const userId = userExist._id;
 
         if(!userExist){
             return response.status(401).json({message : "User doesn't exist"});
         }
-
+        const userId = userExist._id;
         const storedHashedPassword = userExist.password;
         const match = await bcrypt.compare(password,storedHashedPassword);
 
@@ -117,6 +116,30 @@ userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
         return response.status(500).json({message : "Something went wrong"});
     }
 
+})
+
+userRouter.get("/user-exist", authenticationMiddleWare, async (request,response)=>{
+
+    const userId = request.body.userId;
+    try{
+    const userExist = await User.findById( {_id:userId} );
+
+    if(userExist){
+        return response.status(200).json({
+            userExist : true
+        })
+    }
+    else{
+        return response.status(200).json({
+            userExist : false
+        })
+    }
+    }catch(error){
+        return response.status(500).json({
+            message : "Something went wrong",
+            userExist : false
+        })
+    }
 })
 
 function ifNameNotUpdated(savedName,updatedName ){
