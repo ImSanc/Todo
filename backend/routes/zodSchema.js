@@ -13,9 +13,10 @@ export const SigninSchema = zod.object({
 
 export const userUpdateSchema = zod.object({
     firstName : zod.string().min(1).max(50),
-    lastName : zod.string().max(50),
-    password : zod.string().min(6).max(50)
+    lastName : zod.string().max(50)
 })
+
+export const passwordSchema = zod.string().min(6).max(50);
 
 export const addTodoSchema = zod.object({
     title : zod.string().min(1).max(50),

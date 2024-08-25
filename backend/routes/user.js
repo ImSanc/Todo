@@ -1,5 +1,5 @@
 import express, { request, response } from 'express'
-import { SignUpSchema, SigninSchema, userUpdateSchema } from './zodSchema.js';
+import { SignUpSchema, SigninSchema, passwordSchema, userUpdateSchema } from './zodSchema.js';
 import { User } from './db.js';
 import jsonwebtoken from 'jsonwebtoken'
 import { jWT_Token } from '../config.js';
@@ -84,15 +84,21 @@ userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
 
     const {username,password,firstName,lastName} = request.body;
 
-    const {success} = userUpdateSchema.safeParse({password,firstName,lastName});
+    const {success} = userUpdateSchema.safeParse({firstName,lastName});
     if(!success){
-        return response.status(400).json({message : "Password and First Name should be correct"});
+        return response.status(400).json({message : "First Name should be correct / Not empty"});
+    }
+
+    if(password){
+        const {success} = passwordSchema.safeParse(password);
+        if(!success){
+            return response.status(400).json({message : "Password should be of 6 or more / Not empty"});
+        }
     }
 
     try{
-
         const savedUserDetail = await User.findOne({username});
-        const match = await bcrypt.compare(password,savedUserDetail.password);
+        const match = password ? await bcrypt.compare(password,savedUserDetail.password) : false;
         const firstNameNotUpdate = ifNameNotUpdated(savedUserDetail.firstName,firstName);
         const lastNameNotUpdate = ifNameNotUpdated(savedUserDetail.lastName,lastName);
 
@@ -100,10 +106,17 @@ userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
             return response.status(400).json({message : "details are not updated/ Still the same"});
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password,salt);
+        let result;
+        if(password){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password,salt);
 
-        const result = await User.updateOne({username},{$set : { password : hashedPassword,firstName,lastName}});
+            result = await User.updateOne({username},{$set : { password : hashedPassword,firstName,lastName}});
+        }
+        else
+        {
+            result = await User.updateOne({username},{$set : {firstName,lastName}});
+        }
 
         if(result.modifiedCount === 0){
             return response.status(404).json({message :"User not found or data not modified"});
