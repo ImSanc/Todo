@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkAuthorizationSelector } from "../recoil/selector";
 import axios from "axios";
+import ErrorDialog from "../components/ErrorMessage";
 
 export function UserDetail(){
 
@@ -39,7 +40,11 @@ export function UserDetail(){
             setErrorMessage( error.response?.data?.message || 'An Unexpected error occured');
             setShowErrorDialog(true);
         }
-    } 
+    };
+
+    const onCloseClick = ()=>{
+        setShowErrorDialog(false);
+    }
 
     useEffect(()=>{
 
@@ -70,12 +75,13 @@ export function UserDetail(){
         <div className=" bg-[url('/loggedinBg.jpg')] bg-cover bg-center h-screen w-screen ">
            <HeaderBar/>
            <div className="w-screen mt-24 flex justify-center items-center">
-                <div className="w-[80%] h-2/3 sm:w-[70%] md:w-[25%] bg-slate-400 p-2 rounded-2xl">
+                <div className={`${ showErrorDialog ? "h-[90%]" : "h-2/3"} w-[80%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-slate-400 p-2 rounded-2xl`}>
                     <LoginHeader heading={"User details"}></LoginHeader>
                     <InputComponent type={"text"} value={firstName} inputLabel={"First Name"} onChange={(e)=>{ setFirstName(e.target.value)}} />
                     <InputComponent type={"text"} value={lastName} inputLabel={"Last Name"}  onChange={(e)=>{ setLastName(e.target.value)}}/>
                     <InputComponent type={"password"} placeholder={"Enter new password to change"} inputLabel={"New Password"} onChange={(e)=>{ setUserPassword(e.target.value)}} />
                     <Button label={"Update"} onClick={onUpdateClick}/>
+                    { showErrorDialog && <ErrorDialog message={errorMessage} onClose={onCloseClick} />}
                 </div>
 
            </div>
