@@ -1,8 +1,15 @@
+import classNames from 'classnames';
 import React from 'react';
 
-function ErrorDialog({ message, onClose }) {
+function ErrorDialog({ message, onClose, color }) {
+
+  const backGround = {
+    red  :  'bg-red-300',
+    green : 'bg-green-300'
+  }
+
   return (
-    <div className='bg-red-300 flex justify-center items-center p-2 rounded-lg'>
+    <div className= { classNames( backGround[color] || 'bg-red-300' ,' flex justify-center items-center p-2 rounded-lg')}>
         <div className='font-medium text-lg flex justify-center items-center'>
             {message}
         </div>

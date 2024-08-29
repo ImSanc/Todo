@@ -4,7 +4,7 @@ import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { LoginHeader } from "../components/LoginHeader";
 import { errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, visibleBackButtonAtom } from "../recoil/atoms";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkAuthorizationSelector } from "../recoil/selector";
 import axios from "axios";
@@ -20,6 +20,7 @@ export function UserDetail(){
     const [password,setUserPassword] = useRecoilState(passwordAtom);
     const [showErrorDialog,setShowErrorDialog] = useRecoilState(showErrorDialogAtom);
     const [errorMessage,setErrorMessage] = useRecoilState(errorMessageAtom);
+    const [backGround, setBackGround] = useState('');
 
     useEffect( ()=>{
         setVisibleBackButton(true);
@@ -35,15 +36,31 @@ export function UserDetail(){
             }, {headers:{
                 'Authorization': token,
             }})
+
+            if(response.data.updated){
+                setErrorMessage( response?.data?.message || 'Updated');
+                setShowErrorDialog(true);
+                setBackGround( ()=>("green"));
+                setFirstName(firstName);
+                setLastName(lastName);
+                setTimeout( ()=>{
+                    setErrorMessage( '');
+                    setShowErrorDialog(false);
+                    navigate("/dashboard");
+                },2000)
+               
+            }
         }
         catch(error){
             setErrorMessage( error.response?.data?.message || 'An Unexpected error occured');
             setShowErrorDialog(true);
+            setBackGround('');
         }
     };
 
     const onCloseClick = ()=>{
         setShowErrorDialog(false);
+        setBackGround('');
     }
 
     useEffect(()=>{
@@ -81,7 +98,7 @@ export function UserDetail(){
                     <InputComponent type={"text"} value={lastName} inputLabel={"Last Name"}  onChange={(e)=>{ setLastName(e.target.value)}}/>
                     <InputComponent type={"password"} placeholder={"Enter new password to change"} inputLabel={"New Password"} onChange={(e)=>{ setUserPassword(e.target.value)}} />
                     <Button label={"Update"} onClick={onUpdateClick}/>
-                    { showErrorDialog && <ErrorDialog message={errorMessage} onClose={onCloseClick} />}
+                    { showErrorDialog && <ErrorDialog message={errorMessage} onClose={onCloseClick} color={ backGround} />}
                 </div>
 
            </div>
