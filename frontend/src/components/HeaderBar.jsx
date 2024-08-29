@@ -18,6 +18,11 @@ export function HeaderBar(){
         setVisibleBackButton(false);
     }
 
+    const logOutClick = () => {
+        localStorage.removeItem("token");
+        setIsOpen(false);
+    }
+
     return(
         <div className="bg-slate-700 w-screen h-20 border-b-2 border-slate-500 rounded-m flex justify-between">
             {visibleBackButton ?
@@ -43,7 +48,7 @@ export function HeaderBar(){
                 <div className={`transform transition-transform duration-300 ${ !visibleBackButton ? "hover:cursor-pointer hover:scale-110" : ""} rounded-full bg-blue-300 h-16 w-16 flex justify-center items-center text-4xl font-semibold pb-1`} onClick={toggleDropdown}>
                       {firstName.charAt(0).toUpperCase()}
                 </div>
-                {isDropdownOpen && <DropDown />}
+                {isDropdownOpen && <DropDown logOutClick={logOutClick}/>}
             </div>
         </div>
     )

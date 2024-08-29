@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import {  isDropDownOpenAtom } from "../recoil/atoms";
 
-export function DropDown(){
-    
+export function DropDown( { logOutClick} ){
+
     const[isOpen,setIsOpen] =  useRecoilState(isDropDownOpenAtom);
     const dropDownRef = useRef(null);
 
@@ -22,8 +22,10 @@ export function DropDown(){
         }
     },[])
 
+    
+
     return (
-        <div className="relative" ref={dropDownRef}>
+        <div className="relative mt-16" ref={dropDownRef}>
             {
                 isOpen 
                 &&
@@ -33,7 +35,7 @@ export function DropDown(){
                     }}>
                         Update Details
                     </Link>
-                    <div className="block px-4 py-2  hover:text-red-500 hover:bg-gray-600 hover:cursor-pointer">
+                    <div className="block px-4 py-2  hover:text-red-500 hover:bg-gray-600 hover:cursor-pointer" onClick={ ()=>{ logOutClick }} > 
                         Log Out
                     </div>
                 </div>

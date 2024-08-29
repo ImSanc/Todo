@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from "recoil";
+import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { HeaderBar } from "../components/HeaderBar";
 import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
@@ -15,6 +15,7 @@ export function UserDetail(){
     const setVisibleBackButton = useSetRecoilState(visibleBackButtonAtom);
     const navigate = useNavigate();
     const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
+    const refreshAuthorization = useRecoilRefresher_UNSTABLE(checkAuthorizationSelector);
     const [firstName,setFirstName] = useRecoilState(firstNameAtom);
     const [lastName,setLastName] = useRecoilState(lastNameAtom);
     const [password,setUserPassword] = useRecoilState(passwordAtom);
@@ -41,11 +42,13 @@ export function UserDetail(){
                 setErrorMessage( response?.data?.message || 'Updated');
                 setShowErrorDialog(true);
                 setBackGround( ()=>("green"));
-                setFirstName(firstName);
-                setLastName(lastName);
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
                 setTimeout( ()=>{
+                    setVisibleBackButton(false);
                     setErrorMessage( '');
                     setShowErrorDialog(false);
+                    refreshAuthorization();
                     navigate("/dashboard");
                 },2000)
                
@@ -91,7 +94,7 @@ export function UserDetail(){
     return (
         <div className=" bg-[url('/loggedinBg.jpg')] bg-cover bg-center h-screen w-screen ">
            <HeaderBar/>
-           <div className="w-screen mt-24 flex justify-center items-center">
+           <div className="w-screen mt-20 flex justify-center items-center">
                 <div className={`${ showErrorDialog ? "h-[90%]" : "h-2/3"} w-[80%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-slate-400 p-2 rounded-2xl`}>
                     <LoginHeader heading={"User details"}></LoginHeader>
                     <InputComponent type={"text"} value={firstName} inputLabel={"First Name"} onChange={(e)=>{ setFirstName(e.target.value)}} />

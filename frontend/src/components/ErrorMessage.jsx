@@ -9,7 +9,7 @@ function ErrorDialog({ message, onClose, color }) {
   }
 
   return (
-    <div className= { classNames( backGround[color] || 'bg-red-300' ,' flex justify-center items-center p-2 rounded-lg')}>
+    <div className= { classNames( backGround[color] || 'bg-red-300' ,' flex justify-center items-center mt-1 p-2 rounded-lg')}>
         <div className='font-medium text-lg flex justify-center items-center'>
             {message}
         </div>

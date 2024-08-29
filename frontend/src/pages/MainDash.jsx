@@ -26,7 +26,7 @@ export function MainDash(){
                 setLastName(()=>(authorizationSelector.contents.user.lastName));
             }
         }
-    },[authorizationSelector.state,authorizationSelector.contents,navigate])
+    },[authorizationSelector.state,authorizationSelector.contents,navigate,lastName,firstName])
 
     if(authorizationSelector.state === 'loading') {
         return <div className=" bg-slate-700 text-white text-lg flex justify-center items-center w-screen h-screen">
