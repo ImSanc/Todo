@@ -119,10 +119,13 @@ userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
         }
 
         if(result.modifiedCount === 0){
-            return response.status(404).json({message :"User not found or data not modified"});
+            return response.status(404).json({message :"Please update the data"});s
         }
 
-        return response.status(200).json({message :"Updated successfully"});
+        return response.status(200).json({
+            message :"Updated successfully",
+            updated : true
+        });
 
     }
     catch(error){
