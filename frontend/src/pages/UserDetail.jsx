@@ -3,7 +3,7 @@ import { HeaderBar } from "../components/HeaderBar";
 import { InputComponent } from "../components/InputComponent";
 import { Button } from "../components/LoginButton";
 import { LoginHeader } from "../components/LoginHeader";
-import { errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, showErrorDialogAtom, visibleBackButtonAtom } from "../recoil/atoms";
+import { errorMessageAtom, firstNameAtom, lastNameAtom, passwordAtom, removeDetailfromDropDownAtom, showErrorDialogAtom, visibleBackButtonAtom } from "../recoil/atoms";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkAuthorizationSelector } from "../recoil/selector";
@@ -16,6 +16,7 @@ export function UserDetail(){
     const navigate = useNavigate();
     const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
     const refreshAuthorization = useRecoilRefresher_UNSTABLE(checkAuthorizationSelector);
+    const setRemoveDetailsOption = useSetRecoilState(removeDetailfromDropDownAtom);
     const [firstName,setFirstName] = useRecoilState(firstNameAtom);
     const [lastName,setLastName] = useRecoilState(lastNameAtom);
     const [password,setUserPassword] = useRecoilState(passwordAtom);
@@ -25,6 +26,7 @@ export function UserDetail(){
 
     useEffect( ()=>{
         setVisibleBackButton(true);
+        setRemoveDetailsOption(true);
     },[])
 
     const onUpdateClick = async () => {
@@ -93,7 +95,7 @@ export function UserDetail(){
 
     return (
         <div className=" bg-[url('/loggedinBg.jpg')] bg-cover bg-center h-screen w-screen ">
-           <HeaderBar/>
+           <HeaderBar  />
            <div className="w-screen mt-20 flex justify-center items-center">
                 <div className={`${ showErrorDialog ? "h-[90%]" : "h-2/3"} w-[80%] sm:w-[50%] md:w-[40%] lg:w-[30%] bg-slate-400 p-2 rounded-2xl`}>
                     <LoginHeader heading={"User details"}></LoginHeader>

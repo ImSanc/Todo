@@ -124,7 +124,9 @@ userRouter.put("/update", authenticationMiddleWare, async (request,response)=>{
 
         return response.status(200).json({
             message :"Updated successfully",
-            updated : true
+            updated : true,
+            firstName ,
+            lastName
         });
 
     }

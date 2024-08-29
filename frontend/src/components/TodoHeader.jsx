@@ -1,7 +1,7 @@
 
 export function TodoHeader({header,showTodo,onClick}){
     return (
-        <div className="flex justify-between items-center bg-blue-900 rounded-t-lg py-2 px-6 " onClick={onClick}>
+        <div className={ `flex justify-between items-center bg-blue-900 ${ showTodo ? "rounded-t-xl" : "rounded-xl"} py-2 px-6 `} onClick={onClick}>
             <div className="font-medium text-4xl p-2 text-slate-300">
                 {header}
             </div>

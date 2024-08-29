@@ -18,7 +18,7 @@ export function TodoListComp(){
                             <TodoHeader header={"Todo's"} showTodo={showTodos} onClick={onClickOfTodo}/>
                             {
                                 showTodos &&
-                                    <div className=" rounded-b-sm bg-slate-100">    
+                                    <div className=" rounded-b-xl bg-slate-100">    
                                         san
                                     </div>
                             }

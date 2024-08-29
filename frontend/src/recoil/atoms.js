@@ -51,3 +51,13 @@ export const visibleBackButtonAtom = atom({
     default : false
 })
 
+export const logOutAtom = atom({
+    key : "logOutAtom",
+    default : false
+})
+
+export const removeDetailfromDropDownAtom = atom({
+    key : "removeDetailfromDropDown",
+    default : false
+})
+

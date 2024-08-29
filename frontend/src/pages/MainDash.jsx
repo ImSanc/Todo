@@ -1,11 +1,11 @@
 
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from "recoil";
 import { HeaderBar } from "../components/HeaderBar";
 
 import { TodoListComp } from "../components/TodoListComp";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { firstNameAtom, lastNameAtom } from "../recoil/atoms";
+import { firstNameAtom, lastNameAtom, removeDetailfromDropDownAtom } from "../recoil/atoms";
 import { checkAuthorizationSelector } from "../recoil/selector";
 
 export function MainDash(){
@@ -13,6 +13,7 @@ export function MainDash(){
     const [firstName,setFirstName] = useRecoilState(firstNameAtom);
     const [lastName,setLastName] = useRecoilState(lastNameAtom);
     const authorizationSelector = useRecoilValueLoadable(checkAuthorizationSelector);
+    const setRemoveDetailsOption = useSetRecoilState(removeDetailfromDropDownAtom);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -26,6 +27,8 @@ export function MainDash(){
                 setLastName(()=>(authorizationSelector.contents.user.lastName));
             }
         }
+        setRemoveDetailsOption(false);
+
     },[authorizationSelector.state,authorizationSelector.contents,navigate,lastName,firstName])
 
     if(authorizationSelector.state === 'loading') {
