@@ -20,7 +20,7 @@ export const passwordSchema = zod.string().min(6).max(50);
 
 export const addTodoSchema = zod.object({
     title : zod.string().min(1).max(50),
-    description : zod.string().max(200),
+    description : zod.string().min(0).max(200),
     userId : zod.string()
 })
 

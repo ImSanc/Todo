@@ -62,7 +62,22 @@ export const removeDetailfromDropDownAtom = atom({
 })
 
 export const todosAtom = atom({
-    key : "todo",
+    key : "todosAtom",
     default : []
+})
+
+export const todoTitleAtom = atom( {
+    key : "todoTitleAtom",
+    default : ""
+})
+
+export const todoDescAtom = atom( {
+    key : "todoDescAtom",
+    default : ""
+})
+
+export const showAddTodoAtom = atom({
+    key : "AddTodo",
+    default : false
 })
 

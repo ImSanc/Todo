@@ -23,3 +23,25 @@ export const checkAuthorizationSelector = selector({
         }
     }
 })
+
+export const getTodosSelector = selector({
+    key : "getTodoSelector",
+    get : async ({get}) => {
+        try{
+            const token = localStorage.getItem("token" || get(tokenAtom));
+
+            const response = await axios.get("http://localhost:3000/api/v1/todos/getTodos",{
+                headers : {
+                    'Authorization' : token
+                }
+            });
+
+            return response.data;
+        }
+        catch(error){
+            return {
+                todos : []
+            };
+        }
+    }
+})
