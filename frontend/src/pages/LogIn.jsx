@@ -48,6 +48,8 @@ export function LogIn(){
                 const token = `Bearer ${ response.data.token}`;
                 localStorage.setItem("token",token);
                 setTokenAtom(token);
+                setErrorMessage("");
+                setShowErrorDialog(false);
                 navigate("/dashboard");
             }
             else{

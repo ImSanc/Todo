@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilRefresher_UNSTABLE, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import {  isDropDownOpenAtom, logOutAtom, removeDetailfromDropDownAtom, tokenAtom } from "../recoil/atoms";
+import {  isDropDownOpenAtom, logOutAtom, passwordAtom, removeDetailfromDropDownAtom, tokenAtom, userEmailAtom } from "../recoil/atoms";
 import { checkAuthorizationSelector } from "../recoil/selector";
 
 export function DropDown(){
 
     const[isOpen,setIsOpen] =  useRecoilState(isDropDownOpenAtom);
+    const setUserName =  useSetRecoilState(userEmailAtom);
+    const setUserPassword =  useSetRecoilState(passwordAtom);
     const setLogOut = useSetRecoilState(logOutAtom);
     const setToken = useSetRecoilState(tokenAtom);
     const dropDownRef = useRef(null);
@@ -35,6 +37,8 @@ export function DropDown(){
             refreshAuthorization();
             setToken("");
             setLogOut(true);
+            setUserName("");
+            setUserPassword("");
             navigate("/login");
         },1000);        
     }

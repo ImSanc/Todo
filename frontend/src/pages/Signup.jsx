@@ -55,6 +55,8 @@ export function SignUp(){
           const token = `Bearer ${response.data.token}`;
           localStorage.setItem("token", token);
           setTokenAtom("token", token)
+          setErrorMessage("");
+          setShowErrorDialog(false);
           navigate("/dashboard")
         }
         else {

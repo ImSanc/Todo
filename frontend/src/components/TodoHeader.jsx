@@ -10,7 +10,7 @@ export function TodoHeader({header,showTodo,onClick}){
         setShowTodo(false);
         setTimeout(()=>{
             setShowTodoAdd(true);
-        },400);
+        },700);
        
         e.stopPropagation()
     }

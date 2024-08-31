@@ -18,7 +18,10 @@ todoRouter.post("/addTodo",authenticationMiddleWare, async (request, response)=>
 
     try{
         await Todo.create({ userId: userId,title,description});
-        return response.status(200).json({message : "Todo created successfully"});
+        return response.status(200).json({
+            message : "Todo created successfully",
+            added : true
+        });
     }
     catch(err){
         return response.status(400).json({message : "Sorry, something is up"});
@@ -52,7 +55,7 @@ todoRouter.put("/updateTodo",authenticationMiddleWare, async (request, response)
 
 todoRouter.delete("/deleteTodo",authenticationMiddleWare , async ( request, response)=>{
 
-    const {todoId} = request.body;
+    const {todoId} = request.query;
     const {success} = deleteSchema.safeParse({todoId});
 
     if(!success){
@@ -66,7 +69,10 @@ todoRouter.delete("/deleteTodo",authenticationMiddleWare , async ( request, resp
             return response.status(400).json({message : "Todo not found/ Coudln't delete the todo"})
         }
 
-        return response.status(200).json({message : "Todo deleted successfully"});
+        return response.status(200).json({
+            message : "Todo deleted successfully",
+            deleted : true
+        });
     }
     catch(err){
         return response.status(500).json({message : "Sorry, something is up"});

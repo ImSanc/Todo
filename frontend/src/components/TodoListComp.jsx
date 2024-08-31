@@ -14,7 +14,7 @@ export function TodoListComp(){
 
     const onClickOfTodo = ()=>{
         setShowTodoAdd(false);
-        const timeout = setTimeout( ()=>{  setShowTodos( !showTodos);},400);
+        const timeout = setTimeout( ()=>{  setShowTodos( !showTodos);},700);
         return ()=>clearTimeout(timeout);
     }
 
@@ -24,7 +24,7 @@ export function TodoListComp(){
         }
         else
         {
-            const timeout = setTimeout( ()=>{ setIsVisible(false)},400);
+            const timeout = setTimeout( ()=>{ setIsVisible(false)},700);
             return ()=>clearTimeout(timeout);
         }
     },[showTodos]);
