@@ -112,7 +112,10 @@ todoRouter.delete("/deleteAll",authenticationMiddleWare, async (request,response
         if( result === 0 ){
             return response.status(400).json({message : "Couldn't delete todos/ please login again"})
         }
-        return response.status(200).json({message : "All the Todos are deleted"});
+        return response.status(200).json({
+            message : "All the Todos are deleted",
+            deleted : true
+        });
     }
     catch(err){
         return response.status(500).json({message : "Sorry ,Something is up"})

@@ -28,9 +28,10 @@ export function Todo(){
                 const token = localStorage.getItem("token");
                 const id = todo._id;
 
+                //We can refactor this code to mark as todo if we want to keep the marked todos
                 const completeTodo = async ()=>{
                     try{
-                        const response = await axios.delete(`http://localhost:3000/api/v1/todos/deleteTodo?todoId=${id}`,
+                        await axios.delete(`http://localhost:3000/api/v1/todos/deleteTodo?todoId=${id}`,
                             {
                                 headers : {
                                 'Authorization' : token
@@ -38,12 +39,11 @@ export function Todo(){
                             }
                         );
                         refreshAuthorization();
-                        // if(response.data.deleted){
-                            
-                        // }
                     }
                     catch(error){
-                        
+                        setErrorMessage( error.response?.data?.message || 'An Unexpected error occured');
+                        setShowErrorDialog(true);
+                        setBackGround('');
                     }
                 }
 
@@ -63,9 +63,12 @@ export function Todo(){
                                 {todo.description.length>50 ? todo.description.slice(0,40)+"..." : todo.description }
                             </div>
                         </div>
-                        <div className=" border-2 border-slate-400 rounded-full p-1 flex items-center justify-center" >
+                        <div className=" relative group border-2 border-slate-400 rounded-full p-1 flex items-center justify-center" >
                             <div className="bg-slate-300 rounded-full w-5 h-5 hover:bg-green-500" onClick={completeTodo}>
                             </div>
+                            <span className="absolute right-8 bottom-2 w-20 transform overflow-visible translate-y-1/2 opacity-0 transition-opacity duration-300 text-sm bg-black text-white py-1 px-2 rounded-lg group-hover:opacity-100">
+                                Mark as Done
+                            </span>
                         </div>
                     </div>
                 )
