@@ -3,6 +3,11 @@
 Welcome to the Todo project! This project aims to create a basic todo application where you can add, delete and mark you todos.
 If you want to keep your todo in track this is the way to go!
 
+# Demo
+https://github.com/user-attachments/assets/45e010ea-c69c-47d2-804b-852889fdf147
+
+
+
 # Features
 - User Authentication & Authorization using JWT.
 - Update user's details.
